@@ -1,12 +1,27 @@
-def learning_dict(key):
-    collection = {
-        "name": "Alexey",
+def toggle(collection, flag: set):
+    if collection in flag:
+        flag.discard(collection)
+    else:
+        flag.add(collection)
+
+
+def toggled(collection, flag: set):
+    new_flag = flag.copy()
+    toggle(collection, new_flag)
+    return new_flag
+
+
+def key_in_dict(key: str):
+    user = {
+        "name": "Alex",
         "age": 27,
         "mail": "Ffl.B-Unit@mail.ru"
     }
-    if key in collection:
-        return collection.get(key)
+    if key in user:
+        return user.get(key)
     else:
-        print("Satisfied key is missing!")
-        for k, v in collection.items():
-            print(f"{k} = {v}")
+        print("The specified key is missing!")
+        for key, value in user.items():
+            print(f"{key} = {value}")
+
+
