@@ -1,3 +1,8 @@
+from typing import Tuple
+from functools import reduce
+from operator import truth, getitem
+
+
 # LEARN COLLECTIONS
 def toggle(collection, flag: set):
     if collection in flag:
@@ -45,9 +50,11 @@ def greet(name, *args):
     return greet_string
 
 
-# For this function was one more function:
+##########
+
+
 def rgb(red=0, green=0, blue=0):
-    return "rgb({}, {}, {})".format(red, green, blue)
+    return f"rgb({red}, {green}, {blue})"
 
 
 def get_colors():
@@ -57,3 +64,56 @@ def get_colors():
         "blue": rgb(blue=255),
     }
     return colors_dictionary
+
+
+##########
+
+
+def updated(collection: dict, **kwargs) -> dict:
+    new_collection = collection.copy()
+    new_collection.update(kwargs)
+    return new_collection
+
+
+def call_twice(function, *args, **kwargs) -> Tuple:
+    result_1 = function(*args, **kwargs)
+    result_2 = function(*args, **kwargs)
+    return result_1, result_2
+
+
+##########
+
+
+def add_function(item) -> Tuple:
+    if item > 0:
+        return True, "*" * item
+    else:
+        return False, ""
+
+
+def filter_map(function, collection) -> list:
+    new_collection = []
+    for item in collection:
+        state, value = function(item)
+        if state is True:
+            new_collection.append(value)
+    return new_collection
+
+
+##########
+
+
+##########
+def keep_truthful(sequence) -> filter:
+    return filter(truth, sequence)
+
+
+def abs_sum(sequence):
+    return sum(map(abs, sequence))
+
+
+def walk(dictionary: dict, sequence):
+    return reduce(getitem, sequence, dictionary)
+
+
+##########
