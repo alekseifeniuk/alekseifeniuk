@@ -100,10 +100,7 @@ def filter_map(function, collection) -> list:
     return new_collection
 
 
-##########
-
-
-##########
+# Learn map, filter, reduce
 def keep_truthful(sequence) -> filter:
     return filter(truth, sequence)
 
@@ -116,4 +113,23 @@ def walk(dictionary: dict, sequence):
     return reduce(getitem, sequence, dictionary)
 
 
-##########
+# Learn closure
+def greeting(name, surname):
+    return f"Hello, {name} {surname}!"
+
+
+def partial_apply(function, name):
+    def inner(surname):
+        return function(name, surname)
+
+    return inner
+
+
+def flip(function):
+    def inner(name, surname):
+        return function(surname, name)
+
+    return inner
+
+
+# Learn private function
