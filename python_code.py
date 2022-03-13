@@ -133,3 +133,26 @@ def flip(function):
 
 
 # Learn private function
+def make_module(step=1):
+    return {"inc": lambda x: x + step, "dec": lambda x: x - step}
+
+
+# Learn decorators
+def memoized(function):
+    calculated_values = {}
+
+    def inner(x):
+        if x in calculated_values:
+            return calculated_values[x]
+        else:
+            result = function(x)
+            calculated_values[x] = result
+            return result
+
+    return inner
+
+
+@memoized
+def func(x: int) -> int:
+    print("Calculating...")
+    return x * 10
