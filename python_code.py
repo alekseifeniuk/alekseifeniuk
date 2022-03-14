@@ -1,5 +1,5 @@
 from typing import Tuple
-from functools import reduce
+from functools import reduce, wraps
 from operator import truth, getitem
 
 
@@ -152,7 +152,45 @@ def memoized(function):
     return inner
 
 
+def memoizing(limit):
+    def wrapper(function):
+        calculated_values = {}
+        keys = []
+
+        @wraps(function)
+        def inner(argument):
+            memoized_result = calculated_values.get(argument)
+            if memoized_result is None:
+                memoized_result = function(argument)
+                calculated_values[argument] = memoized_result
+                keys.append(argument)
+                if len(keys) > limit:
+                    oldest_argument = keys.pop(0)
+                    calculated_values.pop(oldest_argument)
+            return memoized_result
+
+        return inner
+
+    return wrapper
+
+
+@memoizing(3)
 @memoized
 def func(x: int) -> int:
     print("Calculating...")
     return x * 10
+
+
+# Learn recursion
+def is_even(argument):
+    if argument == 0:
+        return True
+    else:
+        return is_odd(argument - 1)
+
+
+def is_odd(argument):
+    if argument == 0:
+        return False
+    else:
+        return is_even(argument - 1)
