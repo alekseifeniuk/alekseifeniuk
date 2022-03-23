@@ -175,38 +175,3 @@ def find_where(books: list, query: dict) -> dict:
         book_inf = set(book.values())
         if book_inf.issuperset(query_string):
             return book
-
-
-# TASK 7: ROMAN NUMERALS.
-# Test: print(find_where(library, {'author': 'Shakespeare', 'year': 1611}))
-# Decision:
-def to_roman(number: int) -> str:
-    library_numbers = {
-        1: "I",
-        4: "IV",
-        5: "V",
-        9: "IX",
-        10: "X",
-        40: "XL",
-        50: "L",
-        90: "XC",
-        100: "C",
-        400: "CD",
-        500: "D",
-        900: "CM",
-        1000: "M",
-    }
-    arab = list(library_numbers.keys())
-    roman = list(library_numbers.values())
-    result = ""
-    i = len(arab) - 1
-    while number > 0:
-        if number >= arab[i]:
-            result += roman[i]
-            number -= arab[i]
-        else:
-            i -= 1
-    return result
-
-
-print(to_roman(3))
