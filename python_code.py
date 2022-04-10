@@ -194,3 +194,117 @@ def is_odd(argument):
         return False
     else:
         return is_even(argument - 1)
+
+
+# __________________________________________________________
+# def odds_from_odds(seq: list):
+#     new_seq = []
+#     for i in range(len(seq)):
+#         if i % 2 == 0:
+#             new_seq.append(
+#                 list(filter(lambda x: seq[i].index(x) % 2 == 0, seq[i]))
+#             )
+#     return new_seq
+
+
+def keep_odds_from_odds(sequence: list):
+    index = len(sequence) - 1
+    while index >= 0:
+        if index % 2 != 0:
+            sequence.pop(index)
+        else:
+            item_length = len(sequence[index]) - 1
+            while item_length >= 0:
+                if item_length % 2 != 0:
+                    sequence[index].pop(item_length)
+                item_length -= 1
+        index -= 1
+    return sequence
+
+
+# __________________________________________________________
+def write_result(function):
+    list_of_result = list()
+
+    def inner(x) -> Tuple:
+        for i in range(x):
+            list_of_result.append(function(x) * i)
+        list_sum = sum(list_of_result)
+        return list_of_result, list_sum
+
+    return inner
+
+
+@write_result
+def summary(number: int) -> int:
+    return number * 5
+
+
+# __________________________________________________________
+
+
+# Generators
+def non_empty_truths(sequence: list) -> list:
+    result_list = [
+        x for x in [[y for y in one_list if y] for one_list in sequence] if x
+    ]
+    return result_list
+
+
+def non_empty_truths_1(sequence: list) -> list:
+    result = []
+    for subseq in sequence:
+        sub_result = []
+        for val in subseq:
+            if val:
+                sub_result.append(val)
+        if sub_result:
+            result.append(sub_result)
+    return result
+
+
+def number_of_unique_letters(string: str) -> int:
+    result = len({char for char in string.lower() if char.isalpha()})
+    return result
+
+
+# __________________________________________________________
+def is_int(x):
+    return isinstance(x, int)
+
+
+def each2d(function, sequence: list) -> bool:
+    return all(all(function(val) for val in item) for item in sequence)
+
+
+def some2d(function, sequence: list) -> bool:
+    return any(any(function(val) for val in item) for item in sequence)
+
+
+def sum2d(function, sequence: list) -> int:
+    return sum(sum(val for val in item if function(val)) for item in sequence)
+
+
+# __________________________________________________________
+def my_map(function, sequence: list):
+    for item in sequence:
+        yield function(item)
+
+
+# How to use my_map function:
+def my_map_result(function):
+    result_list = []
+    for item in function:
+        result_list.append(item)
+    return result_list
+
+
+def my_filter(function, sequence: list):
+    for item in sequence:
+        if function(item):
+            yield item
+
+
+def replicate_each(mul: int, sequence: list):
+    for item in sequence:
+        yield from (item for _ in range(mul))
