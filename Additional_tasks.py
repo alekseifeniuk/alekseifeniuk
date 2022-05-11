@@ -2,6 +2,8 @@
 
 from collections import Counter
 from datetime import date
+from urllib.parse import urlparse, urlunparse
+import copy
 
 # TASK 1: COUNTER.
 # Test: print(get_men_counted_by_year(users))
@@ -175,3 +177,56 @@ def find_where(books: list, query: dict) -> dict:
         book_inf = set(book.values())
         if book_inf.issuperset(query_string):
             return book
+
+
+# __________________________ABSTRACTION__________________________
+# TASK 1: URL PARSING.
+# Test:
+# Decision:
+def make(url: str):
+    return urlparse(url)
+
+
+def get_scheme(url) -> str:
+    return url.scheme
+
+
+def set_scheme(url: dict, new_scheme: str) -> str:
+    raw_url: str = copy.deepcopy(url["address"])
+    parse_data = urlparse(raw_url)._replace(scheme=new_scheme)
+    return parse_data.geturl()
+
+
+def get_host(url):
+    return url.hostname
+
+
+def set_host(url: dict, new_host: str) -> str:
+    raw_url: str = copy.deepcopy(url["address"])
+    parse_data = urlparse(raw_url)._replace(netloc=new_host)
+    return parse_data.geturl()
+
+
+def get_path(url):
+    return url.path
+
+
+def set_path(url: dict, new_path: str) -> str:
+    raw_url: str = copy.deepcopy(url["address"])
+    parse_data = urlparse(raw_url)._replace(path=new_path)
+    return parse_data.geturl()
+
+
+def to_string(url):
+    return urlunparse(url)
+
+
+address = make("https://hexlet.io/community?q=low")
+print(address)
+print(get_scheme(address))
+# print(set_scheme(address, "http"))
+print(get_host(address))
+# print(set_host(address, "docs.python.org"))
+print(get_path(address))
+# print(set_path(address, "/404"))
+# print(to_string(address))
