@@ -2,7 +2,8 @@
 
 from collections import Counter
 from datetime import date
-from urllib.parse import urlparse, urlunparse
+from typing import NamedTuple
+from urllib.parse import urlparse, urlunparse, parse_qs, urlencode
 import copy
 
 # TASK 1: COUNTER.
@@ -183,50 +184,71 @@ def find_where(books: list, query: dict) -> dict:
 # TASK 1: URL PARSING.
 # Test:
 # Decision:
-def make(url: str):
+def make(url: str) -> NamedTuple:
     return urlparse(url)
 
 
-def get_scheme(url) -> str:
+def get_scheme(url):
     return url.scheme
 
 
-def set_scheme(url: dict, new_scheme: str) -> str:
-    raw_url: str = copy.deepcopy(url["address"])
-    parse_data = urlparse(raw_url)._replace(scheme=new_scheme)
-    return parse_data.geturl()
+def set_scheme(url: NamedTuple, new_scheme: str):
+    raw_url = copy.deepcopy(url)
+    return raw_url._replace(scheme=new_scheme)
 
 
 def get_host(url):
     return url.hostname
 
 
-def set_host(url: dict, new_host: str) -> str:
-    raw_url: str = copy.deepcopy(url["address"])
-    parse_data = urlparse(raw_url)._replace(netloc=new_host)
-    return parse_data.geturl()
+def set_host(url: NamedTuple, new_host: str):
+    raw_url = copy.deepcopy(url)
+    return raw_url._replace(netloc=new_host)
 
 
 def get_path(url):
     return url.path
 
 
-def set_path(url: dict, new_path: str) -> str:
-    raw_url: str = copy.deepcopy(url["address"])
-    parse_data = urlparse(raw_url)._replace(path=new_path)
-    return parse_data.geturl()
+def set_path(url: NamedTuple, new_path: str):
+    raw_url = copy.deepcopy(url)
+    return raw_url._replace(path=new_path)
 
 
-def to_string(url):
+def get_query_param(url, param: str, value=None):
+    raw_url = copy.deepcopy(url)
+    query = parse_qs(raw_url.query)
+    if param in query.keys():
+        return query[param]
+    else:
+        return [value]
+
+
+def set_query_param(url, param, value):
+    raw_url = copy.deepcopy(url)
+    request_params = parse_qs(raw_url.query)
+    if value is None:
+        if param in request_params:
+            request_params.pop(param)
+            return raw_url._replace(query=urlencode(request_params, doseq=True))
+        return raw_url
+    else:
+        request_params[param] = [value]
+        return raw_url._replace(query=urlencode(request_params, doseq=True))
+
+
+def to_string(url) -> str:
     return urlunparse(url)
 
 
 address = make("https://hexlet.io/community?q=low")
-print(address)
-print(get_scheme(address))
+# print(address)
+# print(get_scheme(address))
 # print(set_scheme(address, "http"))
-print(get_host(address))
+# print(get_host(address))
 # print(set_host(address, "docs.python.org"))
-print(get_path(address))
+# print(get_path(address))
 # print(set_path(address, "/404"))
-# print(to_string(address))
+# print(get_query_param(address, "q"))
+# print(set_query_param(address, "page", "high"))
+print(to_string(set_query_param(address, "page", 5)))
