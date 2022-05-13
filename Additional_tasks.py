@@ -193,8 +193,7 @@ def get_scheme(url):
 
 
 def set_scheme(url: NamedTuple, new_scheme: str):
-    raw_url = copy.deepcopy(url)
-    return raw_url._replace(scheme=new_scheme)
+    return url._replace(scheme=new_scheme)
 
 
 def get_host(url):
@@ -202,8 +201,7 @@ def get_host(url):
 
 
 def set_host(url: NamedTuple, new_host: str):
-    raw_url = copy.deepcopy(url)
-    return raw_url._replace(netloc=new_host)
+    return url._replace(netloc=new_host)
 
 
 def get_path(url):
@@ -211,33 +209,25 @@ def get_path(url):
 
 
 def set_path(url: NamedTuple, new_path: str):
-    raw_url = copy.deepcopy(url)
-    return raw_url._replace(path=new_path)
+    return url._replace(path=new_path)
 
 
 def get_query_param(url, param: str, value=None):
-    raw_url = copy.deepcopy(url)
-    query = parse_qs(raw_url.query)
-    if param in query.keys():
-        return query[param]
-    else:
-        return [value]
+    return parse_qs(url.query).get(param, value)[0]
 
 
 def set_query_param(url, param, value):
-    raw_url = copy.deepcopy(url)
-    request_params = parse_qs(raw_url.query)
+    request_params = parse_qs(url.query)
     if value is None:
-        if param in request_params:
-            request_params.pop(param)
-            return raw_url._replace(query=urlencode(request_params, doseq=True))
-        return raw_url
+        request_params.pop(param)
     else:
         request_params[param] = [value]
-        return raw_url._replace(query=urlencode(request_params, doseq=True))
+    return url._replace(
+        query=urlencode(request_params, doseq=True)
+    )
 
 
-def to_string(url) -> str:
+def to_string(url: NamedTuple) -> str:
     return urlunparse(url)
 
 
@@ -249,6 +239,6 @@ address = make("https://hexlet.io/community?q=low")
 # print(set_host(address, "docs.python.org"))
 # print(get_path(address))
 # print(set_path(address, "/404"))
-# print(get_query_param(address, "q"))
+print(get_query_param(address, "q"))
 # print(set_query_param(address, "page", "high"))
-print(to_string(set_query_param(address, "page", 5)))
+# print(to_string(set_query_param(address, "page", 5)))
