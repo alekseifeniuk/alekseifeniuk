@@ -248,7 +248,10 @@ def to_string(url: NamedTuple) -> str:
 # Decision:
 def stringify(data, replacer="", space_count=1) -> str:
     prefix = replacer * space_count
-    result = "".join(f"{prefix}{key}: {value}\n".strip('"') for key, value in data.items())
+    result = ""
+    for key, value in data.items():
+        result += f"{prefix}{key}: {value}\n".strip('"')
+    # result = "".join(f"{prefix}{key}: {value}\n".strip('"') for key, value in data.items())
     return result.strip("'")
 
 
