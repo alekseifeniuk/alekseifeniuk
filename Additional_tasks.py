@@ -240,3 +240,16 @@ def set_query_param(url, param, value):
 
 def to_string(url: NamedTuple) -> str:
     return urlunparse(url)
+
+
+# __________________________RECURSION__________________________
+# TASK 1: JSON stringify.
+# Test:
+# Decision:
+def stringify(data, replacer="", space_count=1) -> str:
+    prefix = replacer * space_count
+    result = "".join(f"{prefix}{key}: {value}\n".strip('"') for key, value in data.items())
+    return result.strip("'")
+
+
+print(stringify({"kek": 7, "kick": True}, "|-", 2))
