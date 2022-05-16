@@ -183,6 +183,17 @@ def find_where(books: list, query: dict) -> dict:
 # __________________________ABSTRACTION__________________________
 # TASK 1: URL PARSING.
 # Test:
+# address = make("https://hexlet.io/community?q=low")
+# print(address)
+# print(get_scheme(address))
+# print(set_scheme(address, "http"))
+# print(get_host(address))
+# print(set_host(address, "docs.python.org"))
+# print(get_path(address))
+# print(set_path(address, "/404"))
+# print(get_query_param(address, "q"))
+# print(set_query_param(address, "page", "high"))
+# print(to_string(set_query_param(address, "page", 5)))
 # Decision:
 def make(url: str) -> NamedTuple:
     return urlparse(url)
@@ -229,16 +240,3 @@ def set_query_param(url, param, value):
 
 def to_string(url: NamedTuple) -> str:
     return urlunparse(url)
-
-
-address = make("https://hexlet.io/community?q=low")
-# print(address)
-# print(get_scheme(address))
-# print(set_scheme(address, "http"))
-# print(get_host(address))
-# print(set_host(address, "docs.python.org"))
-# print(get_path(address))
-# print(set_path(address, "/404"))
-print(get_query_param(address, "q"))
-# print(set_query_param(address, "page", "high"))
-# print(to_string(set_query_param(address, "page", 5)))
