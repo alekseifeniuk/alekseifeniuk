@@ -1,6 +1,7 @@
 import copy
 import itertools
-import operator
+
+# import operator
 import os
 from hexlet.fs import (
     mkdir,
@@ -17,40 +18,55 @@ from hexlet.fs import (
 def remove_first_level(sequence: list) -> list:
     second_list = filter(lambda item: isinstance(item, list), sequence)
     return list(itertools.chain(*second_list))
+
+
 # print(remove_first_level([[5], 1, [[3, 2], 4]]))
 
 
 # 2)
 def generate() -> dict:
-    return (
-        mkdir("python-package", meta={"hidden": True}, children=[
+    return mkdir(
+        "python-package",
+        meta={"hidden": True},
+        children=[
             mkfile("Makefile"),
             mkfile("README.md"),
             mkdir("dist"),
             mkdir("tests", children=[mkfile("test_solution.py")]),
             mkfile("pyproject.toml"),
-            mkdir(".venv", meta={"owner": "root", "hidden": False}, children=[
-                mkdir("lib", children=[
-                    mkdir("python3.6", children=[
-                        mkdir("site-packages", children=[
-                            mkfile("hexlet-python-package.egg-link")
-                        ])
-                    ])
-                ])
-            ])
-        ])
+            mkdir(
+                ".venv",
+                meta={"owner": "root", "hidden": False},
+                children=[
+                    mkdir(
+                        "lib",
+                        children=[
+                            mkdir(
+                                "python3.6",
+                                children=[
+                                    mkdir(
+                                        "site-packages",
+                                        children=[mkfile("hexlet.egg-link")],
+                                    )
+                                ],
+                            )
+                        ],
+                    )
+                ],
+            ),
+        ],
     )
 
 
 # 3) Are given:
 tree = mkdir(
-    'my documents',
+    "my documents",
     [
-        mkdir('1C_files'),
-        mkfile('avatar.jpg', {'size': 100}),
-        mkfile('photo.jpg', {'size': 150}),
+        mkdir("1C_files"),
+        mkfile("avatar.jpg", {"size": 100}),
+        mkfile("photo.jpg", {"size": 150}),
     ],
-    {'hide': False}
+    {"hide": False},
 )
 
 
@@ -70,16 +86,22 @@ def compress_images(file_system: dict) -> dict:
 
 
 # 4) Are given:
-tree_1 = mkdir('/', [
-    mkdir('eTc', [
-        mkdir('NgiNx', [], {'size': 4000}),
+tree_1 = mkdir(
+    "/",
+    [
         mkdir(
-            'CONSUL',
-            [mkfile('config.JSON', {'uid': 0})],
+            "eTc",
+            [
+                mkdir("NgiNx", [], {"size": 4000}),
+                mkdir(
+                    "CONSUL",
+                    [mkfile("config.JSON", {"uid": 0})],
+                ),
+            ],
         ),
-    ]),
-    mkfile('HOSTS'),
-])
+        mkfile("HOSTS"),
+    ],
+)
 
 
 # Decision:
@@ -94,21 +116,33 @@ def downcase_file_names(file_system: dict) -> dict:
 
 
 # 5) Are given:
-tree_2 = mkdir('/', [
-    mkdir('etc', [
-        mkdir('apache'),
-        mkdir('nginx', [
-            mkfile('.nginx.conf', {'size': 800}),
-        ]),
-        mkdir('.consul', [
-            mkfile('.config.json', {'size': 1200}),
-            mkfile('data', {'size': 8200}),
-            mkfile('raft', {'size': 80}),
-        ]),
-    ]),
-    mkfile('.hosts', {'size': 3500}),
-    mkfile('resolve', {'size': 1000}),
-])
+tree_2 = mkdir(
+    "/",
+    [
+        mkdir(
+            "etc",
+            [
+                mkdir("apache"),
+                mkdir(
+                    "nginx",
+                    [
+                        mkfile(".nginx.conf", {"size": 800}),
+                    ],
+                ),
+                mkdir(
+                    ".consul",
+                    [
+                        mkfile(".config.json", {"size": 1200}),
+                        mkfile("data", {"size": 8200}),
+                        mkfile("raft", {"size": 80}),
+                    ],
+                ),
+            ],
+        ),
+        mkfile(".hosts", {"size": 3500}),
+        mkfile("resolve", {"size": 1000}),
+    ],
+)
 
 
 # Decision:
@@ -124,7 +158,7 @@ def get_hidden_files_count(node: dict) -> int:
 # See at 5.
 # Decision:
 def du(node: dict):
-    children = get_children(node)
+    # children = get_children(node)
 
     def count_size(child):
         if is_file(child):
@@ -132,29 +166,41 @@ def du(node: dict):
         children_list = get_children(child)
         return sum(list(map(count_size, children_list)))
 
-    result = list(
-        map(lambda child: (get_name(child), count_size(child)), children)
-    )
-    result.sort(key=operator.itemgetter(1), reverse=True)
-    return result
+    # result = list(
+    #     map(lambda child: (get_name(child), count_size(child)), children)
+    # )
+    # result.sort(key=operator.itemgetter(1), reverse=True)
+    # return result
 
 
 # 5) Are given:
-tree_3 = mkdir('/', [
-    mkdir('etc', [
-        mkdir('apache'),
-        mkdir('nginx', [
-            mkfile('nginx.conf', {'size': 800}),
-        ]),
-        mkdir('consul', [
-            mkfile('config.json'),
-            mkfile('data'),
-            mkfile('raft'),
-        ]),
-    ]),
-    mkfile('hosts', {'size': 3500}),
-    mkfile('resolve', {'size': 1000}),
-])
+tree_3 = mkdir(
+    "/",
+    [
+        mkdir(
+            "etc",
+            [
+                mkdir("apache"),
+                mkdir(
+                    "nginx",
+                    [
+                        mkfile("nginx.conf", {"size": 800}),
+                    ],
+                ),
+                mkdir(
+                    "consul",
+                    [
+                        mkfile("config.json"),
+                        mkfile("data"),
+                        mkfile("raft"),
+                    ],
+                ),
+            ],
+        ),
+        mkfile("hosts", {"size": 3500}),
+        mkfile("resolve", {"size": 1000}),
+    ],
+)
 
 
 # Decision:

@@ -1,6 +1,5 @@
 from collections import Counter
 from datetime import date
-from itertools import starmap
 from typing import NamedTuple
 from urllib.parse import urlparse, urlunparse, parse_qs, urlencode
 
@@ -224,9 +223,7 @@ def set_query_param(url, param, value):
         request_params.pop(param)
     else:
         request_params[param] = [value]
-    return url._replace(
-        query=urlencode(request_params, doseq=True)
-    )
+    return url._replace(query=urlencode(request_params, doseq=True))
 
 
 def to_string(url: NamedTuple) -> str:
@@ -240,5 +237,53 @@ def to_string(url: NamedTuple) -> str:
 def flatten(sequence: list) -> list:
     result = []
     for item in sequence:
+        print(item)
         result += flatten(item) if isinstance(item, list) else [item]
     return result
+
+
+# TASK 2: List as dictionary.
+# Test:
+# print(convert([('key2', [('key2', 'anotherValue')]), ('key', 'value')]))
+# Decision:
+def convert(sequence: list) -> dict:
+    result = dict()
+    for item in sequence:
+        key, value = item
+        if isinstance(value, list):
+            result[key] = convert(value)
+        else:
+            result[key] = value
+    return result
+
+
+# TASK 3: JSON stringify.
+# Test:
+# Decision:
+def stringify(value, replacer="--", spaces_count=1):
+    prefix = replacer * spaces_count
+    result = ""
+    if isinstance(value, dict):
+        for key in value.keys():
+            if isinstance(value[key], dict):
+                result += f"{prefix}{key}:\n{prefix}{stringify(value[key])}\n"
+            else:
+                result += f"{prefix}{key}: {value[key]}\n"
+    else:
+        result += f"{prefix}{value}"
+    return result.replace('",', "")
+
+
+def stringify1(value, replacer="", spaces_count=1):
+    prefix = replacer * spaces_count
+    if isinstance(value, dict):
+        result = "\n".join(f"{prefix}{key}: {value[key]}" for key in value)
+    else:
+        result = f"{prefix}{value}"
+    return result.replace('",', "")
+
+
+data = {"hello": "world", "is": True, "nested": {"count": 5}}
+data1 = "hello"
+data2 = {"string": "value", "boolean": True, "number": 5}
+print(stringify1(data2))
