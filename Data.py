@@ -167,4 +167,5 @@ def find_files_by_name(tree: dict, part: str) -> list:
         children = get_children(node)
         paths = map(lambda child: inner(child, new_ancestry), children)
         return flatten(paths)
+
     return inner(tree, "")

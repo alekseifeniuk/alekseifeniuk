@@ -1,11 +1,10 @@
-# __________________________FUNCTIONS__________________________
-
 from collections import Counter
 from datetime import date
+from itertools import starmap
 from typing import NamedTuple
 from urllib.parse import urlparse, urlunparse, parse_qs, urlencode
-import copy
 
+# __________________________FUNCTIONS__________________________
 # TASK 1: COUNTER.
 # Test: print(get_men_counted_by_year(users))
 users = [
@@ -184,15 +183,7 @@ def find_where(books: list, query: dict) -> dict:
 # TASK 1: URL PARSING.
 # Test:
 # address = make("https://hexlet.io/community?q=low")
-# print(address)
-# print(get_scheme(address))
-# print(set_scheme(address, "http"))
-# print(get_host(address))
-# print(set_host(address, "docs.python.org"))
-# print(get_path(address))
 # print(set_path(address, "/404"))
-# print(get_query_param(address, "q"))
-# print(set_query_param(address, "page", "high"))
 # print(to_string(set_query_param(address, "page", 5)))
 # Decision:
 def make(url: str) -> NamedTuple:
@@ -243,16 +234,11 @@ def to_string(url: NamedTuple) -> str:
 
 
 # __________________________RECURSION__________________________
-# TASK 1: JSON stringify.
-# Test:
+# TASK 1: Flatten function.
+# Test: print(flatten([2, [3, 5], [[4, 3], 2]]))
 # Decision:
-def stringify(data, replacer="", space_count=1) -> str:
-    prefix = replacer * space_count
-    result = ""
-    for key, value in data.items():
-        result += f"{prefix}{key}: {value}\n".strip('"')
-    # result = "".join(f"{prefix}{key}: {value}\n".strip('"') for key, value in data.items())
-    return result.strip("'")
-
-
-print(stringify({"kek": 7, "kick": True}, "|-", 2))
+def flatten(sequence: list) -> list:
+    result = []
+    for item in sequence:
+        result += flatten(item) if isinstance(item, list) else [item]
+    return result
