@@ -1,5 +1,6 @@
 from collections import Counter
 from datetime import date
+from json import dumps
 from typing import NamedTuple
 from urllib.parse import urlparse, urlunparse, parse_qs, urlencode
 
@@ -260,30 +261,22 @@ def convert(sequence: list) -> dict:
 # TASK 3: JSON stringify.
 # Test:
 # Decision:
-def stringify(value, replacer="--", spaces_count=1):
+def stringify(value, replacer="|-", spaces_count=2) -> str:
     prefix = replacer * spaces_count
-    result = ""
+    result_dict = dict()
     if isinstance(value, dict):
-        for key in value.keys():
+        for key in value:
             if isinstance(value[key], dict):
-                result += f"{prefix}{key}:\n{prefix}{stringify(value[key])}\n"
+                result_dict[key] = stringify(value[key])
             else:
-                result += f"{prefix}{key}: {value[key]}\n"
+                result_dict[f"{key}"] = f"{value[key]}"
+        result = dumps(result_dict, indent=prefix, separators=("", ": "))
+        return result.replace('"', "")
     else:
-        result += f"{prefix}{value}"
-    return result.replace('",', "")
+        return f"{prefix}{value}"
 
 
-def stringify1(value, replacer="", spaces_count=1):
-    prefix = replacer * spaces_count
-    if isinstance(value, dict):
-        result = "\n".join(f"{prefix}{key}: {value[key]}" for key in value)
-    else:
-        result = f"{prefix}{value}"
-    return result.replace('",', "")
-
-
-data = {"hello": "world", "is": True, "nested": {"count": 5}}
+data = {"Hello": "world", None: True, "nested": {"count": 5}}
 data1 = "hello"
-data2 = {"string": "value", "boolean": True, "number": 5}
-print(stringify1(data2))
+data2 = {"string": "value", None: True, "number": 5}
+print(stringify(data))
