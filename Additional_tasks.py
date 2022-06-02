@@ -259,24 +259,23 @@ def convert(sequence: list) -> dict:
 
 
 # TASK 3: JSON stringify.
-# Test:
+# Test: print(stringify(data))
+# data = {"Hello": "world", None: True, "nested": {"count": 5, "kek": True}}
 # Decision:
-def stringify(value, replacer="|-", spaces_count=2) -> str:
+def stringify(value, replacer=" ", spaces_count=1) -> str:
     prefix = replacer * spaces_count
-    result_dict = dict()
     if isinstance(value, dict):
-        for key in value:
-            if isinstance(value[key], dict):
-                result_dict[key] = stringify(value[key])
-            else:
-                result_dict[f"{key}"] = f"{value[key]}"
-        result = dumps(result_dict, indent=prefix, separators=("", ": "))
+
+        def create(dict_data: dict) -> dict:
+            result_dict = dict()
+            for key in dict_data:
+                if isinstance(dict_data[key], dict):
+                    result_dict[key] = create(dict_data[key])
+                else:
+                    result_dict[f"{key}"] = f"{dict_data[key]}"
+            return result_dict
+
+        result = dumps(create(value), indent=prefix, separators=("", ": "))
         return result.replace('"', "")
     else:
-        return f"{prefix}{value}"
-
-
-data = {"Hello": "world", None: True, "nested": {"count": 5}}
-data1 = "hello"
-data2 = {"string": "value", None: True, "number": 5}
-print(stringify(data))
+        return str(value)
