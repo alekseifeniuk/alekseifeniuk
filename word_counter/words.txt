@@ -1,0 +1,12 @@
+The word: hello = 2 in text.
+The word: my = 1 in text.
+The word: name = 1 in text.
+The word: is = 1 in text.
+The word: john = 2 in text.
+The word: i = 1 in text.
+The word: have = 1 in text.
+The word: two = 1 in text.
+The word: high = 1 in text.
+The word: education = 1 in text.
+The word: best = 1 in text.
+The word: regards = 1 in text.
