@@ -1,0 +1,63 @@
+Install Git:
+    1) sudo pacman -S git
+    2) TEST: git --version
+    3) Reg Email: git config --global user.email Ffl.B-Unit@mail.ru
+    4) Reg Name: git config --global user.name Aleksei
+
+For connect with GitHub:
+    1) Generate ssh-key: ssh-keygen -t rsa -b 4096 -C Ffl.B-Unit@mail.ru
+    2) Run ssh-agent: eval "$(ssh-agent -s)"
+    3) Add new ssh-key to agent: ssh-add ~/.ssh/id_rsa
+    4) Public key add to GitHub. Open file id_rsa.pub and copy to GitHub.
+    5) Initializing directory (redirect to necessary directory): git init.
+        git remote add origin https://github.com/alekseifeniuk/<repository_name>.git
+        git branch -M main
+        ***Create commit
+        git push --set-upstream origin main
+
+Commands)
+    git add   (add to index)
+    git commit -m "comment"   (send commit)
+    git push https://github.com/alekseifeniuk/project-git.git   (send commit to GitHub)
+    git push origin --force (fast add changes)
+    git clone https://github.com/alekseifeniuk/project-git.git   (clone GitHub repository to local machine)
+    git rm <file name>   (delete file from working directory)
+    git rm --cached <file name>   (delete file from index)
+    git restore <file name>   (restore file state)
+    git status   (file state)
+    git diff   (see different for non index file)
+    git diff --staged   (see different for all file)
+    git log -p   (see list of all commit with differences)
+    git show <commit id>   (see all information of commit (use all symbols or 8 first symbols))
+    git blame <file name>   (see last changes in file with UID and commit id)
+    git grep <part of text>   (find all strings with this part of text)
+    git commit --amend (--no-edit)   (add file to commit(without edit commit name))
+    git commit -am   (add to index and commit all files in working directory)
+    git add -i   (interactive mode)
+    git log --oneline   (show all commit)
+    git checkout <commit hash>   (go to necessary commit)
+    git checkout -b <branch name>   (create new branch and switch)
+    git branch -D <branch name>   (delete branch with this name)
+    git branch -f <branch name> HEAD~n   (transfer point of branch on commit in N steps from HEAD)
+    git reset --hard HEAD~1   (delete last commit)
+    git stash   (hide indexed files)
+    git checkout main && git pull   (switch and update main)
+    git push -d origin <branch_name>   (delete branch with name branch_name in remote repo)
+    git push --set-upstream origin <branch name>    (connect new local branch to remote repository)
+
+# Install package from repository
+    python3 -m pip install git+https://github.com/alekseifeniuk/python-project-lvl1.git
+
+For Windows PowerShell:
+# By default the ssh-agent service is disabled. Allow it to be manually started for the next step to work.
+# Make sure you're running as an Administrator.
+Get-Service ssh-agent | Set-Service -StartupType Manual
+
+# Start the service
+Start-Service ssh-agent
+
+# This should return a status of Running
+Get-Service ssh-agent
+
+# Now load your key files into ssh-agent
+ssh-add "C:\Users\Zuba\.ssh\id_rsa" and enter passcode: qua1rt-11

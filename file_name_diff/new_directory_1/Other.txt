@@ -1,0 +1,2 @@
+%USERPROFILE%\.poetry\bin - директория установки poetry
+C:\Users\<username>\AppData\Local\pypoetry\Cache\virtualenvs - директория виртуального окружения poetry
