@@ -1,0 +1,8 @@
+ONLY IN FIRST FOLDER: 
+---Passwords for prog.txt
+---Python для сетевых инженеров.pdf
+ONLY IN SECOND FOLDER: 
+---Other.txt
+---Passwords.txt
+IN BOTH FOLDER: 
+---INSTALL AND COMMANDS.txt
